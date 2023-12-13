@@ -1,12 +1,14 @@
 <template>
-    <div class="flex flex-col gap-2">
+  <FormComponent @createData="createData" />
+    <ul class="flex flex-col gap-2">
         <Person v-for="(el, index) in employees" :key="index" :data="el" @showData="toggleData" @deleteData="deleteData"/>
-    </div>
+    </ul>
 </template>
 
 <script setup>
+import FormComponent from "@/components/FormComponent.vue";
 import Person from "./Person.vue"
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 
 const employees = ref([
   {id: 1, name: "kong", salary: 40000, department: "โปรแกรมเมอร์", isVisible: false},
@@ -20,8 +22,18 @@ const employees = ref([
    };
 
    const deleteData = id => {
-    console.log("id", id);
     employees.value = employees.value.filter(x => x.id !== id);
+   };
+
+   const createData = (input) => {
+    const newEmployees = {
+      id: employees.value.length + 1,
+      name: input.name,
+      salary: input.salary,
+      department: "programmer",
+      isVisible: false,
+    };
+    employees.value.push(newEmployees);
    };
 
 </script>
